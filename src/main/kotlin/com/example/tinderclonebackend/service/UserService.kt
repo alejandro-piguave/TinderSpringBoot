@@ -1,8 +1,10 @@
 package com.example.tinderclonebackend.service
 
+import com.example.tinderclonebackend.entity.MessageModel
 import com.example.tinderclonebackend.entity.User
 import com.example.tinderclonebackend.model.CreateUserForm
 import com.example.tinderclonebackend.model.EditUserForm
+import com.example.tinderclonebackend.model.MatchModel
 import com.example.tinderclonebackend.repository.MatchRepository
 import com.example.tinderclonebackend.repository.SwipeRepository
 import com.example.tinderclonebackend.repository.UserRepository
@@ -29,6 +31,10 @@ class UserService(private val userRepository: UserRepository,
 
     fun fetchCandidates(userId: String): List<User>{
         return listOf()
+    }
+
+    fun getMatches(userId: String): List<MatchModel>{
+        return emptyList()
     }
 
     fun likeUser(uid: String, swipedUserId: String): Boolean{
@@ -65,5 +71,9 @@ class UserService(private val userRepository: UserRepository,
 
     fun sendMessage(){
 
+    }
+
+    fun getMessages(matchId: Long): List<MessageModel> {
+        return emptyList()
     }
 }
