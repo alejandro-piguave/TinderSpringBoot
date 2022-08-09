@@ -12,7 +12,7 @@ class FirebaseConfig {
 
     @PostConstruct
     fun init(){
-        val resource = ClassPathResource("tindercloneflutter-f801e-firebase-adminsdk-i78z5-a0e08fb180.json")
+        val resource = ClassPathResource("serviceAccountKey.json")
         val refreshToken = resource.inputStream
 
         val options: FirebaseOptions = FirebaseOptions.builder()

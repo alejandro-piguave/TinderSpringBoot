@@ -7,8 +7,8 @@ import javax.persistence.*
 @Entity
 class Message(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    val id: Long,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long,
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     val match: Match,

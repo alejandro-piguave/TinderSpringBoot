@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
+import javax.persistence.EntityNotFoundException
 
 @ControllerAdvice
 class ControllerAdvice{
@@ -15,5 +16,9 @@ class ControllerAdvice{
         return ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
     }
 
-
+    @ExceptionHandler(value = [EntityNotFoundException::class])
+    @ResponseBody
+    fun onException(ex: EntityNotFoundException): ResponseEntity<Any> {
+        return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
+    }
 }

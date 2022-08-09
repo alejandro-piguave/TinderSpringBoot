@@ -2,13 +2,14 @@ package com.example.tinderclonebackend.controller
 
 import com.example.tinderclonebackend.model.EditUserForm
 import com.example.tinderclonebackend.model.CreateUserForm
+import com.example.tinderclonebackend.model.UserLikedResponse
 import com.example.tinderclonebackend.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
-
 @RestController
 class UserController(private val userService: UserService) {
+
 
     @PostMapping("user")
     fun createUser(@RequestBody createUserForm: CreateUserForm): ResponseEntity<String> {
@@ -25,17 +26,18 @@ class UserController(private val userService: UserService) {
     }
 
     @PostMapping("likeUser")
-    fun likeUser(@RequestParam userId: String): ResponseEntity<String>{
+    @ResponseBody
+    fun likeUser(@RequestParam userId: String): UserLikedResponse{
         val uid = SecurityContextHolder.getContext().authentication.principal.toString()
-        val exists = userService.likeUser(uid, userId)
-        return ResponseEntity.ok(if(exists) "User liked" else "")
+        val isMatch = userService.likeUser(uid, userId)
+        return UserLikedResponse(isMatch)
     }
 
     @PostMapping("passUser")
     fun passUser(@RequestParam userId: String): ResponseEntity<String>{
         val uid = SecurityContextHolder.getContext().authentication.principal.toString()
-        val exists = userService.passUser(uid, userId)
-        return ResponseEntity.ok(if(exists) "User passed" else "")
+        userService.passUser(uid, userId)
+        return ResponseEntity.ok().build()
     }
 
 }
