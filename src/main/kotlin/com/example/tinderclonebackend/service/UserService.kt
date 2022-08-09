@@ -6,10 +6,9 @@ import com.example.tinderclonebackend.model.EditUserForm
 import com.example.tinderclonebackend.repository.MatchRepository
 import com.example.tinderclonebackend.repository.SwipeRepository
 import com.example.tinderclonebackend.repository.UserRepository
+import org.hibernate.exception.ConstraintViolationException
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
-import javax.persistence.EntityNotFoundException
-
 @Service
 class UserService(private val userRepository: UserRepository,
                   private val swipeRepository: SwipeRepository,
@@ -33,23 +32,34 @@ class UserService(private val userRepository: UserRepository,
     }
 
     fun likeUser(uid: String, swipedUserId: String): Boolean{
-        try{
+        if(uid == swipedUserId) throw IllegalArgumentException("Users can't swipe themselves")
+        return try{
             swipeRepository.likeUser(uid,swipedUserId)
             val likesBack = swipeRepository.existsLike(swipedUserId, uid)
             if (likesBack){
                 matchRepository.match(uid, swipedUserId)
             }
-            return likesBack
+            likesBack
         }catch (e: DataIntegrityViolationException){
-            throw EntityNotFoundException("No user found with such id")
+            handleSQLException(e)
+            false
+        }
+    }
+
+    private fun handleSQLException(e: DataIntegrityViolationException){
+        when ((e.cause as? ConstraintViolationException)?.sqlException?.errorCode ?: 0) {
+            1452 -> throw IllegalArgumentException("User with such id doesn't exist")
+            1062 -> throw IllegalArgumentException("User has already been swiped")
+            else -> throw IllegalArgumentException("There was an error while processing the swipe")
         }
     }
 
     fun passUser(uid: String, swipedUserId: String){
+        if(uid == swipedUserId) throw IllegalArgumentException("Users can't swipe themselves")
         try{
             swipeRepository.dislikeUser(uid, swipedUserId)
         }catch (e: DataIntegrityViolationException){
-            throw EntityNotFoundException("No user found with such id")
+            handleSQLException(e)
         }
     }
 

@@ -1,21 +1,28 @@
 package com.example.tinderclonebackend.entity
 
-import org.hibernate.annotations.CreationTimestamp
+import java.io.Serializable
 import java.sql.Timestamp
 import javax.persistence.*
 
+@Embeddable
+class SwipeKey(
+    @Column(name = "swiping_user_id")
+    val swipingUserId: String,
+    @Column(name = "swiped_user_id")
+    val swipedUserId: String): Serializable
+
 @Entity
 class Swipe (
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0,
+    @EmbeddedId
+    val swipeKey: SwipeKey,
     @ManyToOne
+    @MapsId("swipingUserId")
     @JoinColumn(name = "swiping_user_id")
     val swipingUser: User,
     @ManyToOne
+    @MapsId("swipedUserId")
     @JoinColumn(name = "swiped_user_id")
     val swipedUser: User,
     val isLike: Boolean,
-    @CreationTimestamp
-    val timestamp: Timestamp = Timestamp(System.currentTimeMillis())
+    val timestamp: Timestamp
 )

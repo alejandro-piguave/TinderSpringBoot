@@ -14,7 +14,7 @@ class Match(
     @ManyToOne
     @JoinColumn(name = "matched_user_id")
     val matchedUser: User,
-    val timestamp: Timestamp = Timestamp(System.currentTimeMillis()),
+    val timestamp: Timestamp,
     @OneToMany(mappedBy = "match",cascade = [CascadeType.ALL], orphanRemoval = true)
     val messages: List<Message> = listOf()
 )
