@@ -1,20 +1,23 @@
 package com.example.tinderclonebackend.service
 
-import com.example.tinderclonebackend.entity.MessageModel
+import com.example.tinderclonebackend.model.MessageModel
 import com.example.tinderclonebackend.entity.User
 import com.example.tinderclonebackend.model.CreateUserForm
 import com.example.tinderclonebackend.model.EditUserForm
 import com.example.tinderclonebackend.model.MatchModel
 import com.example.tinderclonebackend.repository.MatchRepository
+import com.example.tinderclonebackend.repository.MessageRepository
 import com.example.tinderclonebackend.repository.SwipeRepository
 import com.example.tinderclonebackend.repository.UserRepository
 import org.hibernate.exception.ConstraintViolationException
 import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
 @Service
 class UserService(private val userRepository: UserRepository,
                   private val swipeRepository: SwipeRepository,
-                  private val matchRepository: MatchRepository){
+                  private val matchRepository: MatchRepository,
+                  private val messageRepository: MessageRepository){
 
     fun saveUser(uid: String, form: CreateUserForm){
         userRepository.save(form.toEntity(uid))
@@ -34,7 +37,7 @@ class UserService(private val userRepository: UserRepository,
     }
 
     fun getMatches(userId: String): List<MatchModel>{
-        return emptyList()
+        return matchRepository.getMatches(userId).map { it.toModel() }
     }
 
     fun likeUser(uid: String, swipedUserId: String): Boolean{
@@ -69,11 +72,28 @@ class UserService(private val userRepository: UserRepository,
         }
     }
 
-    fun sendMessage(){
-
+    fun sendMessage(userId: String, matchId: Long, message: String){
+        val match = matchRepository.findById(matchId)
+        match.ifPresentOrElse({
+            if (it.matchedUser.id != userId && it.matchingUser.id != userId)
+                throw AccessDeniedException("User doesn't have permission to access this match")
+            messageRepository.save(matchId, userId, message)
+        }, {
+            throw IllegalArgumentException("No match with such id exists")
+        })
     }
 
-    fun getMessages(matchId: Long): List<MessageModel> {
-        return emptyList()
+    fun getMessages(userId: String, matchId: Long): List<MessageModel> {
+        val match = matchRepository.findById(matchId)
+
+        if(match.isEmpty)
+            throw IllegalArgumentException("No match with such id exists")
+
+        val matchEntity = match.get()
+
+        if (matchEntity.matchedUser.id != userId && matchEntity.matchingUser.id != userId)
+            throw AccessDeniedException("User doesn't have permission to access this match")
+
+        return matchEntity.messages.map { it.toModel(userId) }
     }
 }

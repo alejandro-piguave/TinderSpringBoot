@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 interface SwipeRepository: JpaRepository<Swipe, Long> {
 
     @Query(
-        value = "select case when count(*) > 0 then 'true' else 'false' end from swipe s where s.swiping_user_id = :like_from and s.swiped_user_id = :like_to and s.is_like = true",
+        value = "select IF(count(*) > 0, 'true', 'false') from swipe s where s.swiping_user_id = :like_from and s.swiped_user_id = :like_to and s.is_like = true",
         nativeQuery = true
     )
     fun existsLike(

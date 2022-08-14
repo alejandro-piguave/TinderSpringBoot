@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.security.access.AccessDeniedException
 
 @ControllerAdvice
 class ControllerAdvice{
@@ -13,5 +14,12 @@ class ControllerAdvice{
     @ResponseBody
     fun onException(ex: IllegalArgumentException): ResponseEntity<Any> {
         return ResponseEntity(ex.message, HttpStatus.BAD_REQUEST)
+    }
+
+
+    @ExceptionHandler(value = [AccessDeniedException::class])
+    @ResponseBody
+    fun onException(ex: AccessDeniedException): ResponseEntity<Any> {
+        return ResponseEntity(ex.message, HttpStatus.UNAUTHORIZED)
     }
 }

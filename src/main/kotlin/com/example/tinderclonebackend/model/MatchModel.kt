@@ -1,3 +1,5 @@
 package com.example.tinderclonebackend.model
 
-data class MatchModel(val matchId: Long, val name: String, val age: Int, val bio: String)
+import java.sql.Timestamp
+
+data class MatchModel(val id: Long, val timestamp: Timestamp, val name: String, val age: Int, val bio: String)

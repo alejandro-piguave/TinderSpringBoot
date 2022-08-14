@@ -1,10 +1,6 @@
 package com.example.tinderclonebackend.controller
 
-import com.example.tinderclonebackend.entity.MessageModel
-import com.example.tinderclonebackend.model.EditUserForm
-import com.example.tinderclonebackend.model.CreateUserForm
-import com.example.tinderclonebackend.model.MatchModel
-import com.example.tinderclonebackend.model.UserLikedResponse
+import com.example.tinderclonebackend.model.*
 import com.example.tinderclonebackend.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
@@ -37,7 +33,15 @@ class UserController(private val userService: UserService) {
     @ResponseBody
     fun getMessages(@PathVariable matchId: Long): List<MessageModel> {
         val uid = SecurityContextHolder.getContext().authentication.principal.toString()
-        return userService.getMessages(matchId)
+        return userService.getMessages(uid, matchId)
+    }
+
+    @PostMapping("match/{matchId}/message")
+    @ResponseBody
+    fun sendMessage(@PathVariable matchId: Long, @RequestBody createMessageForm: CreateMessageForm): ResponseEntity<String> {
+        val uid = SecurityContextHolder.getContext().authentication.principal.toString()
+        userService.sendMessage(uid, matchId, createMessageForm.message)
+        return ResponseEntity.ok("Message created")
     }
 
     @PostMapping("like-user")

@@ -1,6 +1,5 @@
 package com.example.tinderclonebackend.entity
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -17,20 +16,13 @@ class User(
     var lowerAgeBound: Int = 18,
     var upperAgeBound: Int = 30,
     @OneToMany(mappedBy = "matchedUser", fetch = FetchType.LAZY)
-    @JsonIgnore
-    val matchingUsers: List<Match> = listOf(),
+    val matchingUsers: Set<Match> = setOf(),
     @OneToMany(mappedBy = "matchingUser", fetch = FetchType.LAZY)
-    @JsonIgnore
-    val matchedUsers: List<Match> = listOf(),
+    val matchedUsers: Set<Match> = setOf(),
     @OneToMany(mappedBy = "swipedUser", fetch = FetchType.LAZY)
-    @JsonIgnore
-    val swipingUsers: List<Swipe> = listOf(),
+    val swipingUsers: Set<Swipe> = setOf(),
     @OneToMany(mappedBy = "swipingUser", fetch = FetchType.LAZY)
-    @JsonIgnore
-    val swipedUsers: List<Swipe> = listOf()){
-
-    val matches: List<Match>
-    get() = matchedUsers + matchingUsers
+    val swipedUsers: Set<Swipe> = setOf()){
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

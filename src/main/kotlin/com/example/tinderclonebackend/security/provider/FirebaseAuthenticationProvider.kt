@@ -10,7 +10,7 @@ class FirebaseAuthenticationProvider: AuthenticationProvider {
     override fun authenticate(authentication: Authentication?): Authentication? {
         val tokenString = authentication!!.principal.toString()
         return if(tokenString == "123456")
-            FirebaseToken("defaultUserId")
+            FirebaseToken("alex_id")
         else null
     }
 
