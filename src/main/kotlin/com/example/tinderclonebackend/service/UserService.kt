@@ -13,6 +13,7 @@ import org.hibernate.exception.ConstraintViolationException
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
+
 @Service
 class UserService(private val userRepository: UserRepository,
                   private val swipeRepository: SwipeRepository,

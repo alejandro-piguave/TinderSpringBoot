@@ -8,35 +8,50 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class UserController(private val userService: UserService) {
 
-    @PostMapping("user")
+    @PostMapping("users")
     fun createUser(@RequestBody createUserForm: CreateUserForm): ResponseEntity<String> {
         val uid = SecurityContextHolder.getContext().authentication.principal.toString()
         userService.saveUser(uid, createUserForm)
         return ResponseEntity.ok("User created")
     }
 
-    @PutMapping("user")
+    @PutMapping("users")
     fun editProfile(@RequestBody editUserForm: EditUserForm): ResponseEntity<String>{
         val uid = SecurityContextHolder.getContext().authentication.principal.toString()
         userService.updateUser(uid, editUserForm)
         return ResponseEntity.ok("User updated")
     }
 
-    @GetMapping("match")
+    @PutMapping("users/{userId}/like")
+    @ResponseBody
+    fun likeUser(@PathVariable userId: String): UserLikedResponse{
+        val uid = SecurityContextHolder.getContext().authentication.principal.toString()
+        val isMatch = userService.likeUser(uid, userId)
+        return UserLikedResponse(isMatch)
+    }
+
+    @PutMapping("users/{userId}/pass")
+    fun passUser(@PathVariable userId: String): ResponseEntity<String>{
+        val uid = SecurityContextHolder.getContext().authentication.principal.toString()
+        userService.passUser(uid, userId)
+        return ResponseEntity.ok().build()
+    }
+
+    @GetMapping("matches")
     @ResponseBody
     fun getMatches(): List<MatchModel>{
         val uid = SecurityContextHolder.getContext().authentication.principal.toString()
         return userService.getMatches(uid)
     }
 
-    @GetMapping("match/{matchId}/message")
+    @GetMapping("matches/{matchId}/messages")
     @ResponseBody
     fun getMessages(@PathVariable matchId: Long): List<MessageModel> {
         val uid = SecurityContextHolder.getContext().authentication.principal.toString()
         return userService.getMessages(uid, matchId)
     }
 
-    @PostMapping("match/{matchId}/message")
+    @PostMapping("matches/{matchId}/messages")
     @ResponseBody
     fun sendMessage(@PathVariable matchId: Long, @RequestBody createMessageForm: CreateMessageForm): ResponseEntity<String> {
         val uid = SecurityContextHolder.getContext().authentication.principal.toString()
@@ -44,19 +59,6 @@ class UserController(private val userService: UserService) {
         return ResponseEntity.ok("Message created")
     }
 
-    @PostMapping("like-user")
-    @ResponseBody
-    fun likeUser(@RequestParam userId: String): UserLikedResponse{
-        val uid = SecurityContextHolder.getContext().authentication.principal.toString()
-        val isMatch = userService.likeUser(uid, userId)
-        return UserLikedResponse(isMatch)
-    }
 
-    @PostMapping("pass-user")
-    fun passUser(@RequestParam userId: String): ResponseEntity<String>{
-        val uid = SecurityContextHolder.getContext().authentication.principal.toString()
-        userService.passUser(uid, userId)
-        return ResponseEntity.ok().build()
-    }
 
 }
