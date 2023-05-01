@@ -2,14 +2,15 @@ package com.example.tinderclonebackend.service
 
 import com.example.tinderclonebackend.controller.response.MatchResponse
 import com.example.tinderclonebackend.controller.response.MessageResponse
-import com.example.tinderclonebackend.repository.MatchRepository
-import com.example.tinderclonebackend.repository.MessageRepository
+import com.example.tinderclonebackend.persistence.repository.MatchRepository
+import com.example.tinderclonebackend.persistence.repository.MessageRepository
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
 
 @Service
 class MatchService(private val matchRepository: MatchRepository,
-                   private val messageRepository: MessageRepository){
+                   private val messageRepository: MessageRepository
+){
 
     fun getMatches(userId: String): List<MatchResponse>{
         return matchRepository.getMatches(userId).map { it.toModel() }

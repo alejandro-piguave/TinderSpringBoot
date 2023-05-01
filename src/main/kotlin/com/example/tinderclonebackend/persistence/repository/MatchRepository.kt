@@ -1,6 +1,7 @@
-package com.example.tinderclonebackend.repository
+package com.example.tinderclonebackend.persistence.repository
 
-import com.example.tinderclonebackend.entity.Match
+import com.example.tinderclonebackend.persistence.entity.Match
+import com.example.tinderclonebackend.persistence.entity.MatchResult
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -22,5 +23,5 @@ interface MatchRepository : JpaRepository<Match, Long> {
     )
 
     @Query(nativeQuery = true, name = "MatchResultQuery")
-    fun getMatches(@Param("user_id")userId:String): List<com.example.tinderclonebackend.entity.MatchResult>
+    fun getMatches(@Param("user_id")userId:String): List<MatchResult>
 }

@@ -1,4 +1,4 @@
-package com.example.tinderclonebackend.entity
+package com.example.tinderclonebackend.persistence.entity
 
 import java.io.Serializable
 import java.sql.Timestamp

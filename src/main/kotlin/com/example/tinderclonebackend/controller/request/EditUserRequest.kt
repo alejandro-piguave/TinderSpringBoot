@@ -1,8 +1,8 @@
 package com.example.tinderclonebackend.controller.request
 
-import com.example.tinderclonebackend.entity.Gender
-import com.example.tinderclonebackend.entity.Preference
-import com.example.tinderclonebackend.entity.User
+import com.example.tinderclonebackend.persistence.entity.Gender
+import com.example.tinderclonebackend.persistence.entity.Preference
+import com.example.tinderclonebackend.persistence.entity.User
 import com.example.tinderclonebackend.utils.enumValueOrNull
 import com.example.tinderclonebackend.utils.toListString
 

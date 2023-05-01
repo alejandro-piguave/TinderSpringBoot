@@ -1,6 +1,6 @@
-package com.example.tinderclonebackend.repository
+package com.example.tinderclonebackend.persistence.repository
 
-import com.example.tinderclonebackend.entity.Message
+import com.example.tinderclonebackend.persistence.entity.Message
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository

@@ -1,8 +1,8 @@
 package com.example.tinderclonebackend.controller.request
 
-import com.example.tinderclonebackend.entity.Gender
-import com.example.tinderclonebackend.entity.Preference
-import com.example.tinderclonebackend.entity.User
+import com.example.tinderclonebackend.persistence.entity.Gender
+import com.example.tinderclonebackend.persistence.entity.Preference
+import com.example.tinderclonebackend.persistence.entity.User
 import com.example.tinderclonebackend.utils.enumValueOrNull
 import com.example.tinderclonebackend.utils.parseOrNull
 import com.example.tinderclonebackend.utils.toListString
@@ -15,7 +15,7 @@ data class CreateUserRequest(
     val gender: String?,
     val preference: String?
 ){
-    fun toEntity(uid: String): User{
+    fun toEntity(uid: String): User {
         val userEmail = email ?: throw IllegalArgumentException("Field 'email' can't be null")
         val userName = name ?: throw IllegalArgumentException("Field 'name' can't be null")
         val userBio = bio ?: ""

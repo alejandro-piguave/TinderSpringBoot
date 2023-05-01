@@ -1,6 +1,6 @@
-package com.example.tinderclonebackend.repository
+package com.example.tinderclonebackend.persistence.repository
 
-import com.example.tinderclonebackend.entity.Swipe
+import com.example.tinderclonebackend.persistence.entity.Swipe
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query

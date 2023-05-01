@@ -3,6 +3,7 @@ package com.example.tinderclonebackend.controller.rest
 import com.example.tinderclonebackend.controller.request.CreateUserRequest
 import com.example.tinderclonebackend.controller.request.EditUserRequest
 import com.example.tinderclonebackend.controller.response.UserLikedResponse
+import com.example.tinderclonebackend.controller.response.UserResponse
 import com.example.tinderclonebackend.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
@@ -10,6 +11,11 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class UserController(private val userService: UserService) {
 
+    @GetMapping("users")
+    fun getUsers(): List<UserResponse> {
+        val uid = SecurityContextHolder.getContext().authentication.principal.toString()
+        return userService.getUsers(uid)
+    }
     @PostMapping("users")
     fun createUser(@RequestBody createUserRequest: CreateUserRequest): ResponseEntity<String> {
         val uid = SecurityContextHolder.getContext().authentication.principal.toString()

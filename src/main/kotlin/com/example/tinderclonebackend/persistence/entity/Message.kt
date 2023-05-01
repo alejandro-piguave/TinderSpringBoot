@@ -1,4 +1,4 @@
-package com.example.tinderclonebackend.entity
+package com.example.tinderclonebackend.persistence.entity
 
 import com.example.tinderclonebackend.controller.response.MessageResponse
 import java.sql.Timestamp
