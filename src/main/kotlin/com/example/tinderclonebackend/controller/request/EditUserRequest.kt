@@ -1,4 +1,4 @@
-package com.example.tinderclonebackend.model
+package com.example.tinderclonebackend.controller.request
 
 import com.example.tinderclonebackend.entity.Gender
 import com.example.tinderclonebackend.entity.Preference
@@ -6,7 +6,7 @@ import com.example.tinderclonebackend.entity.User
 import com.example.tinderclonebackend.utils.enumValueOrNull
 import com.example.tinderclonebackend.utils.toListString
 
-data class EditUserForm(
+data class EditUserRequest(
     val bio: String?,
     val gender: String?,
     val preference: String?,

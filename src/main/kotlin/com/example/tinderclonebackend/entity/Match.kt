@@ -1,6 +1,6 @@
 package com.example.tinderclonebackend.entity
 
-import com.example.tinderclonebackend.model.MatchModel
+import com.example.tinderclonebackend.controller.response.MatchResponse
 import org.hibernate.type.LocalDateType
 import java.sql.Timestamp
 import java.time.LocalDate
@@ -47,9 +47,9 @@ class MatchResult(
 ){
     private val timestamp:Timestamp = Timestamp.valueOf(timestampString)
 
-    fun toModel(): MatchModel {
+    fun toModel(): MatchResponse {
         val now = LocalDate.now()
         val age = Period.between(birthDate,now).years
-        return MatchModel(id, timestamp, name, age ,bio)
+        return MatchResponse(id, timestamp, name, age ,bio)
     }
 }

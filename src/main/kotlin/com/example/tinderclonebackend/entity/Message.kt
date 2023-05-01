@@ -1,6 +1,6 @@
 package com.example.tinderclonebackend.entity
 
-import com.example.tinderclonebackend.model.MessageModel
+import com.example.tinderclonebackend.controller.response.MessageResponse
 import java.sql.Timestamp
 import javax.persistence.*
 
@@ -11,11 +11,12 @@ class Message(
     var id: Long,
     @ManyToOne(fetch = FetchType.LAZY)
     val match: Match,
-    val senderId: String,
+    @OneToOne
+    val sender: User,
     val text: String,
     val timestamp: Timestamp
 ){
-    fun toModel(userId: String): MessageModel{
-        return MessageModel(text, timestamp, senderId == userId)
+    fun toModel(userId: String): MessageResponse {
+        return MessageResponse(text, timestamp, sender.id == userId)
     }
 }

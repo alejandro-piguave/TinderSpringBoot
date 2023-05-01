@@ -25,7 +25,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    runtimeOnly("mysql:mysql-connector-java")
+    runtimeOnly("mysql:mysql-connector-java:8.0.32")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

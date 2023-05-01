@@ -1,4 +1,4 @@
-package com.example.tinderclonebackend.model
+package com.example.tinderclonebackend.security.token
 
 import org.springframework.security.authentication.AbstractAuthenticationToken
 

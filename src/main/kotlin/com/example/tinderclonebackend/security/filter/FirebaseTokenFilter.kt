@@ -1,6 +1,6 @@
 package com.example.tinderclonebackend.security.filter
 
-import com.example.tinderclonebackend.model.FirebaseToken
+import com.example.tinderclonebackend.security.token.FirebaseToken
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.context.SecurityContextHolder

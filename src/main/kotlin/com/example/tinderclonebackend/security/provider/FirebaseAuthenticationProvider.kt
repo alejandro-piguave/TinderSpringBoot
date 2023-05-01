@@ -1,7 +1,6 @@
 package com.example.tinderclonebackend.security.provider
 
-import com.example.tinderclonebackend.model.FirebaseToken
-import com.google.firebase.auth.AuthErrorCode
+import com.example.tinderclonebackend.security.token.FirebaseToken
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import org.springframework.security.authentication.AuthenticationProvider
